@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+
+  # Backend PHP + Apache (sirve el frontend HTML/CSS/JS y los endpoints PHP)
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: gimnasio_app
+    ports:
+      - "8085:80"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: gimnasio_app
+      DB_USER: gimnasio_user
+      DB_PASSWORD: gimnasio_pass
+      # Brevo (correo, vía SMTP)
+      BREVO_SMTP_USER: tu_usuario_smtp_de_brevo
+      BREVO_SMTP_PASS: tu_clave_smtp_de_brevo
+      # Bird (WhatsApp, requiere plantilla aprobada — ver config/notificaciones.php)
+      BIRD_API_KEY: tu_api_key_de_bird
+      BIRD_API_HOST: us1.platform.bird.com
+      BIRD_WHATSAPP_TEMPLATE: nombre_de_tu_plantilla_aprobada
+      # Google Cloud Vision (reconocimiento automático de máquinas por foto)
+      GOOGLE_VISION_API_KEY: AIzaSyCu4EYRS4Ryl-joBGL-WV7-RE6Z831zl8g
+    volumes:
+      - ./app/src:/var/www/html
+      - maquinas_fotos:/var/www/html/uploads/maquinas
+      - planes_pdf:/var/www/html/uploads/planes
+    networks:
+      - gimnasio_net
+
+  # Base de datos MySQL
+  db:
+    image: mysql:8.0
+    container_name: gimnasio_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: gimnasio_app
+      MYSQL_USER: gimnasio_user
+      MYSQL_PASSWORD: gimnasio_pass
+    ports:
+      - "3325:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./gimnasio_schema.sql:/docker-entrypoint-initdb.d/gimnasio_schema.sql
+    networks:
+      - gimnasio_net
+
+  # phpMyAdmin para administrar visualmente la base de datos
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: gimnasio_phpmyadmin
+    restart: always
+    ports:
+      - "8086:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: gimnasio_user
+      PMA_PASSWORD: gimnasio_pass
+    depends_on:
+      - db
+    networks:
+      - gimnasio_net
+
+volumes:
+  db_data:
+  maquinas_fotos:
+  planes_pdf:
+
+networks:
+  gimnasio_net:
+    driver: bridge

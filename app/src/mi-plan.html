@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Plan - Tutos Gym Club</title>
+<script src="https://cdn.tailwindcss.com"></script>
+    <script src="public/js/tema.js?v=1"></script>
+    <link rel="stylesheet" href="public/css/tema.css?v=1">
+    <link rel="icon" href="public/img/logo-default.png">
+</head>
+<body class="bg-slate-100 font-sans antialiased min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3 font-bold text-lg">
+            <img class="logo-gym w-12 h-12 rounded-full object-cover" src="public/img/logo-default.png" alt="Logo">
+            <span class="nombre-gym leading-tight">Tutos Gym Club</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <span id="nombreCliente" class="text-sm font-medium text-slate-300">Cargando...</span>
+            <button id="btnSalir" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-2 rounded-lg">Salir</button>
+        </div>
+    </header>
+
+    <main class="p-6 max-w-3xl mx-auto w-full space-y-6">
+
+        <!-- Tarjeta de Suscripción -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Mi suscripción</h2>
+            <div id="tarjetaSuscripcion">Cargando...</div>
+        </section>
+
+        <!-- Tarjeta de Plan de Ejercicios -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Mi plan de ejercicios</h2>
+            <div id="contenidoPlan">Cargando...</div>
+        </section>
+
+    </main>
+
+<script src="public/js/mi-plan.js?v=3"></script>
+<script src="public/js/branding.js?v=1"></script>
+</body>
+</html>

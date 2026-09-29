@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Administración de Máquinas - Tutos Gym Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="public/js/tema.js?v=1"></script>
+    <link rel="stylesheet" href="public/css/tema.css?v=1">
+    <link rel="icon" href="public/img/logo-default.png">
+</head>
+<body class="bg-slate-100 font-sans antialiased" data-roles-permitidos="1">
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <div id="overlaySidebarMovil" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
+        <aside id="sidebarMovil" class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between p-6 fixed md:static inset-y-0 left-0 z-50 -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+            <div>
+                <div class="flex items-center gap-3 text-white font-bold text-lg mb-10">
+                    <img class="logo-gym w-12 h-12 rounded-full object-cover" src="public/img/logo-default.png" alt="Logo">
+                    <span class="nombre-gym leading-tight">Tutos Gym Club</span>
+                </div>
+                                <nav class="space-y-2 text-sm">
+                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">🏠 Inicio</a>
+                    <a href="suscripciones.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">💳 Suscripciones</a>
+                    <a href="reportes.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">📊 Reportes</a>
+                    <a href="admin-maquinas.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600 text-white font-medium shadow-lg shadow-blue-600/30">🏋️‍♂️ Admin. Máquinas</a>
+                    <a href="usuarios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">👥 Usuarios</a>
+                    <a href="configuracion.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">⚙️ Configuración</a>
+                </nav>
+            </div>
+            <div class="text-xs text-slate-500">v2.4.0 - Gym Management</div>
+        </aside>
+
+        <!-- Contenido -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3"><button id="btnMenu" class="md:hidden text-2xl text-slate-600 leading-none">☰</button><h1 class="text-xl font-extrabold text-slate-800">Administración de Máquinas</h1></div>
+                <div class="flex items-center gap-4">
+                    <span id="nombreUsuario" class="text-sm font-medium text-slate-600">Cargando...</span>
+                    <div id="inicialesUsuario" class="w-10 h-10 rounded-full bg-slate-300 flex items-center justify-center font-bold text-slate-700">--</div>
+                    <button id="btnSalir" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-lg font-semibold">Salir</button>
+                    <button id="btnNuevaMaquina" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition shadow-md shadow-blue-600/20">+ Registrar Nueva Máquina</button>
+                </div>
+            </header>
+
+            <div class="p-8 max-w-7xl mx-auto w-full">
+                <!-- Buscador rápido -->
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-6 flex justify-between items-center">
+                    <input type="text" id="buscarMaquina" placeholder="Buscar máquina por nombre..." class="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm w-96 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span id="contadorMaquinas" class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total: -- equipos</span>
+                </div>
+
+                <!-- Formulario de subida (oculto hasta que se pulse el botón) -->
+                <form id="formSubirMaquina" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-6 flex flex-wrap items-center gap-3 hidden">
+                    <input type="file" id="inputFotoMaquina" accept="image/*" required class="text-sm">
+                    <button type="submit" class="bg-emerald-600 text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700">Subir y analizar con IA</button>
+                    <p id="mensajeSubida" class="text-xs w-full"></p>
+                </form>
+
+                <!-- Confirmación de la sugerencia de la IA / edición de una máquina existente -->
+                <div id="tarjetaConfirmacion" class="bg-amber-50 border border-amber-200 p-4 rounded-2xl mb-6 hidden">
+                    <p id="textoSugerenciaIA" class="text-sm text-amber-800 mb-2">La IA sugiere: <strong id="etiquetaSugerida"></strong> (<span id="confianzaSugerida"></span>% de confianza). Confirma o corrige el nombre y elige la categoría:</p>
+                    <div class="flex flex-wrap gap-3 mb-4">
+                        <input type="text" id="nombreConfirmar" placeholder="Nombre de la máquina" class="px-3 py-2 border border-amber-300 rounded-lg text-sm flex-1 min-w-[200px]">
+                        <select id="categoriaConfirmar" class="px-3 py-2 border border-amber-300 rounded-lg text-sm">
+                            <option value="">Categoría...</option>
+                        </select>
+                    </div>
+
+                    <p class="text-sm font-semibold text-amber-800 mb-2">¿Qué ejercicios se pueden hacer en esta máquina? (esto es lo que va a ver el entrenador al armar rutinas)</p>
+                    <div id="checklistEjercicios" class="grid grid-cols-1 md:grid-cols-2 gap-1 mb-3 max-h-48 overflow-y-auto bg-white rounded-lg p-3 border border-amber-200">Cargando ejercicios...</div>
+
+                    <div class="flex gap-2 mb-4">
+                        <input type="text" id="nuevoEjercicioNombre" placeholder="¿No está en la lista? Escribe el nombre y agrégalo" class="px-3 py-2 border border-amber-300 rounded-lg text-sm flex-1">
+                        <button id="btnAgregarEjercicioNuevo" class="bg-white border border-amber-300 text-amber-700 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-amber-100">+ Agregar</button>
+                    </div>
+
+                    <button id="btnConfirmarMaquina" class="bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-amber-700">✅ Guardar</button>
+                </div>
+
+                <!-- Cuadrícula de Máquinas -->
+                <div id="gridMaquinas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">Cargando...</div>
+            </div>
+        </main>
+    </div>
+<script src="public/js/panel-common.js"></script>
+<script src="public/js/admin-maquinas.js?v=3"></script>
+<script src="public/js/branding.js?v=1"></script>
+</body>
+</html>

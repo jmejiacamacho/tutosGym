@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Control General - Tutos Gym Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="public/js/tema.js?v=1"></script>
+    <link rel="stylesheet" href="public/css/tema.css?v=1">
+    <link rel="icon" href="public/img/logo-default.png">
+</head>
+<body class="bg-slate-100 font-sans antialiased" data-roles-permitidos="1">
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar Lateral Completo -->
+        <div id="overlaySidebarMovil" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
+        <aside id="sidebarMovil" class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between p-6 fixed md:static inset-y-0 left-0 z-50 -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+            <div>
+                <div class="flex items-center gap-3 text-white font-bold text-lg mb-10">
+                    <img class="logo-gym w-12 h-12 rounded-full object-cover" src="public/img/logo-default.png" alt="Logo">
+                    <span class="nombre-gym leading-tight">Tutos Gym Club</span>
+                </div>
+                <nav class="space-y-2 text-sm">
+                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600 text-white font-medium shadow-lg shadow-blue-600/30">🏠 Inicio</a>
+                    <a href="suscripciones.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">💳 Suscripciones</a>
+                    <a href="reportes.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">📊 Reportes</a>
+                    <a href="admin-maquinas.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">🏋️‍♂️ Admin. Máquinas</a>
+                    <a href="usuarios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">👥 Usuarios</a>
+                    <a href="configuracion.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">⚙️ Configuración</a>
+                </nav>
+            </div>
+            <div class="text-xs text-slate-500">v2.4.0 - Gym Management</div>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <!-- Header Superior -->
+            <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3"><button id="btnMenu" class="md:hidden text-2xl text-slate-600 leading-none">☰</button><h1 class="text-xl font-extrabold text-slate-800">Panel de Control General</h1></div>
+                <div class="flex items-center gap-4">
+                    <span id="nombreUsuario" class="text-sm font-medium text-slate-600">Cargando...</span>
+                    <div class="w-10 h-10 rounded-full bg-slate-300 flex items-center justify-center font-bold text-slate-700" id="inicialesUsuario">--</div>
+                    <button id="btnSalir" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-lg font-semibold">Salir</button>
+                </div>
+            </header>
+
+            <!-- Cuerpo del Panel -->
+            <div class="p-8 max-w-7xl mx-auto w-full space-y-6">
+                
+                <!-- Tarjetas de Métricas Superiores (KPIs) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Ingresos del Mes</p>
+                            <h3 id="kpiIngresos" class="text-3xl font-black text-slate-800">$--</h3>
+                        </div>
+                        <div class="bg-emerald-50 text-emerald-600 p-3 rounded-xl font-bold">📈</div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Suscripciones Activas</p>
+                            <h3 id="kpiMiembros" class="text-3xl font-black text-slate-800">--</h3>
+                        </div>
+                        <div class="bg-blue-50 text-blue-600 p-3 rounded-xl font-bold">👥</div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Máquinas Confirmadas</p>
+                            <span id="kpiMaquinasFraccion" class="text-xs font-bold text-slate-700">--/--</span>
+                        </div>
+                        <h3 id="kpiMaquinasPorcentaje" class="text-2xl font-black text-slate-800 mb-2">--%</h3>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div id="barraMaquinas" class="bg-emerald-500 h-full w-[0%]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen de Suscripciones y Reportes Rápidos -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-bold text-slate-800">Resumen de Suscripciones</h2>
+                            <a href="suscripciones.html" class="text-xs font-bold text-blue-600 hover:underline">Ver todo &gt;</a>
+                        </div>
+                        <div id="resumenSuscripciones" class="space-y-3">Cargando...</div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-bold text-slate-800">Reportes Rápidos</h2>
+                            <a href="reportes.html" class="text-xs font-bold text-blue-600 hover:underline">Ver más &gt;</a>
+                        </div>
+                        <div id="resumenReportes" class="space-y-2 text-sm text-slate-600">Cargando...</div>
+                    </div>
+                </div>
+
+                <!-- Módulo de Estado de Máquinas -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold text-slate-800">Estado de Máquinas</h2>
+                        <a href="admin-maquinas.html" class="text-xs font-bold text-blue-600 hover:underline">Ver todas &gt;</a>
+                    </div>
+                    
+                    <div id="listaMaquinasResumen" class="grid grid-cols-1 sm:grid-cols-3 gap-4">Cargando...</div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+<script src="public/js/panel-common.js"></script>
+<script src="public/js/panel.js"></script>
+<script src="public/js/branding.js?v=1"></script>
+</body>
+</html>

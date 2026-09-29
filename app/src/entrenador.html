@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel del Entrenador - Tutos Gym Club</title>
+<script src="https://cdn.tailwindcss.com"></script>
+    <script src="public/js/tema.js?v=1"></script>
+    <link rel="stylesheet" href="public/css/tema.css?v=1">
+    <link rel="icon" href="public/img/logo-default.png">
+</head>
+<body class="bg-slate-100 font-sans antialiased min-h-screen" data-roles-permitidos="2">
+
+    <header class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3 font-bold text-lg">
+            <img class="logo-gym w-12 h-12 rounded-full object-cover" src="public/img/logo-default.png" alt="Logo">
+            <span><span class="nombre-gym">Tutos Gym Club</span> — Entrenador</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <span id="nombreUsuario" class="text-sm font-medium text-slate-300">Cargando...</span>
+            <button id="btnSalir" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-2 rounded-lg">Salir</button>
+        </div>
+    </header>
+
+    <main class="p-6 max-w-5xl mx-auto w-full space-y-6">
+
+        <!-- Crear cliente -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4">Crear cliente</h2>
+            <form id="formCrearCliente" class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                <input type="text" id="clienteNombre" placeholder="Nombre completo" required class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-2">
+                <input type="email" id="clienteCorreo" placeholder="Correo" required class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-2">
+                <input type="password" id="clientePassword" placeholder="Contraseña provisional" required class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-2">
+                <input type="tel" id="clienteTelefono" placeholder="Teléfono (opcional)" class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-1">
+                <select id="clienteTipoCliente" class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-1">
+                    <option value="mensual">Mensual</option>
+                    <option value="personalizado" selected>Personalizado</option>
+                </select>
+                <input type="number" id="clienteTarifaPersonalizada" placeholder="Tarifa acordada conmigo" class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-2">
+                <button type="submit" class="bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 md:col-span-1">Crear</button>
+            </form>
+            <p id="mensajeCrear" class="text-xs mt-2"></p>
+        </section>
+
+        <!-- Cambiar tipo de cliente (mensual <-> personalizado) -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-1">Pasar un cliente a Personalizado</h2>
+            <p class="text-xs text-slate-400 mb-4">Si un cliente mensual quiere que lo acompañes de forma personalizada, cámbialo aquí.</p>
+            <form id="formCambiarTipo" class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                <select id="tipoCambioCliente" required class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-2"><option value="">Cliente...</option></select>
+                <select id="tipoCambioNuevoTipo" class="px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                    <option value="personalizado">Personalizado</option>
+                    <option value="mensual">Mensual</option>
+                </select>
+                <input type="number" id="tipoCambioTarifa" placeholder="Tarifa acordada (si aplica)" class="px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                <button type="submit" class="bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 md:col-span-4">Guardar</button>
+            </form>
+            <p id="mensajeCambioTipo" class="text-xs mt-2"></p>
+        </section>
+
+        <!-- Mis clientes personalizados -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4">Mis clientes personalizados</h2>
+            <div id="listaClientes" class="space-y-2 text-sm">Cargando...</div>
+        </section>
+
+        <!-- Armar rutina -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4">Armar rutina para un cliente</h2>
+            <form id="formPlan" class="space-y-4">
+                <input type="hidden" id="planIdEditando" value="">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <select id="planCliente" required class="px-3 py-2 border border-slate-200 rounded-lg text-sm"><option value="">Cliente...</option></select>
+                    <input type="text" id="planNombre" placeholder="Nombre del plan" class="px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                    <select id="planTipo" class="px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                        <option value="guia">Guía (se envía PDF por correo)</option>
+                        <option value="personalizado">Personalizado (yo lo acompaño)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <select id="planDia" class="px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                        <option value="lunes">Lunes</option>
+                        <option value="martes">Martes</option>
+                        <option value="miercoles">Miércoles</option>
+                        <option value="jueves">Jueves</option>
+                        <option value="viernes">Viernes</option>
+                        <option value="sabado">Sábado</option>
+                        <option value="domingo">Domingo</option>
+                    </select>
+                    <input type="number" id="planSeries" placeholder="Series" value="3" min="1" class="px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                    <input type="number" id="planRepeticiones" placeholder="Repeticiones" value="12" min="1" class="px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                </div>
+                <p class="text-xs text-slate-400">El día/series/repeticiones de arriba aplican a los ejercicios que marques abajo. Si quieres días distintos por ejercicio, guarda la rutina varias veces.</p>
+
+                <div id="listaEjerciciosCatalogo" class="border border-slate-200 rounded-lg p-3 max-h-64 overflow-y-auto text-sm space-y-1">Cargando catálogo...</div>
+
+                <div class="flex items-center gap-3">
+                    <button type="submit" id="btnGuardarPlan" class="bg-emerald-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700">Guardar rutina</button>
+                    <button type="button" id="btnCancelarEdicion" class="text-sm text-slate-500 hover:text-slate-700 hidden">Cancelar edición</button>
+                </div>
+                <p id="mensajePlan" class="text-xs mt-2"></p>
+            </form>
+        </section>
+
+        <!-- Mis rutinas creadas -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4">Mis rutinas creadas</h2>
+            <div id="listaRutinas" class="space-y-2 text-sm">Cargando...</div>
+        </section>
+
+    </main>
+
+<script src="public/js/panel-common.js"></script>
+<script src="public/js/entrenador.js?v=3"></script>
+<script src="public/js/branding.js?v=1"></script>
+</body>
+</html>

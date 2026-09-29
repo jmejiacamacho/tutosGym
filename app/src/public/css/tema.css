@@ -1,0 +1,42 @@
+/* Tema de marca: negro + rojo, letras blancas.
+   Va con !important porque Tailwind (CDN) inyecta sus estilos después de este archivo. */
+:root { color-scheme: dark; }
+
+body { background-color: #0d0d0d !important; color: #f5f5f5 !important; }
+
+/* Tarjetas, barras superiores y paneles que eran blancos */
+.bg-white { background-color: #171717 !important; }
+.focus\:bg-white:focus { background-color: #1f1f1f !important; }
+
+/* Texto: los tonos "slate" oscuros pasan a claros (los fondos slate quedan oscuros) */
+.text-slate-900, .text-slate-800 { color: #ffffff !important; }
+.text-slate-700 { color: #e5e5e5 !important; }
+.text-slate-600 { color: #d0d0d0 !important; }
+.text-slate-500 { color: #a8a8a8 !important; }
+.text-slate-400 { color: #8f8f8f !important; }
+.text-slate-300 { color: #d4d4d4 !important; }
+.hover\:text-slate-700:hover { color: #ffffff !important; }
+
+/* Acentos y estados: tonos más claros para que se lean sobre fondo negro */
+.text-blue-600, .text-blue-700, .hover\:text-blue-700:hover { color: #f87171 !important; }
+.text-red-500, .text-red-600, .text-red-700, .hover\:text-red-700:hover, .text-rose-600 { color: #f87171 !important; }
+.text-emerald-600, .text-emerald-700 { color: #34d399 !important; }
+.text-amber-600, .text-amber-700, .text-amber-800 { color: #fbbf24 !important; }
+.text-purple-700 { color: #c4b5fd !important; }
+
+/* Campos de formulario */
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+select, textarea {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border-color: #3a3a3a;
+}
+input::placeholder, textarea::placeholder { color: #7a7a7a; }
+select option { background-color: #1a1a1a; color: #ffffff; }
+
+/* Mensajes de estado del login */
+#mensajeEstado.exito { background: #0d2a1c !important; color: #34d399 !important; }
+#mensajeEstado.error { background: #2b1010 !important; color: #f87171 !important; }
+
+/* Logo del gimnasio */
+.logo-gym { background-color: #000; }

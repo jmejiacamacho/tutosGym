@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes y Finanzas - Tutos Gym Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="public/js/tema.js?v=1"></script>
+    <link rel="stylesheet" href="public/css/tema.css?v=1">
+    <link rel="icon" href="public/img/logo-default.png">
+</head>
+<body class="bg-slate-100 font-sans antialiased" data-roles-permitidos="1">
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <div id="overlaySidebarMovil" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
+        <aside id="sidebarMovil" class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between p-6 fixed md:static inset-y-0 left-0 z-50 -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+            <div>
+                <div class="flex items-center gap-3 text-white font-bold text-lg mb-10">
+                    <img class="logo-gym w-12 h-12 rounded-full object-cover" src="public/img/logo-default.png" alt="Logo">
+                    <span class="nombre-gym leading-tight">Tutos Gym Club</span>
+                </div>
+                                <nav class="space-y-2 text-sm">
+                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">🏠 Inicio</a>
+                    <a href="suscripciones.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">💳 Suscripciones</a>
+                    <a href="reportes.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600 text-white font-medium shadow-lg shadow-blue-600/30">📊 Reportes</a>
+                    <a href="admin-maquinas.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">🏋️‍♂️ Admin. Máquinas</a>
+                    <a href="usuarios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">👥 Usuarios</a>
+                    <a href="configuracion.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">⚙️ Configuración</a>
+                </nav>
+            </div>
+            <div class="text-xs text-slate-500">v2.4.0 - Gym Management</div>
+        </aside>
+
+        <!-- Contenido -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3"><button id="btnMenu" class="md:hidden text-2xl text-slate-600 leading-none">☰</button><h1 class="text-xl font-extrabold text-slate-800">Reportes y Finanzas</h1></div>
+                <div class="flex items-center gap-4">
+                    <span id="nombreUsuario" class="text-sm font-medium text-slate-600">Cargando...</span>
+                    <div id="inicialesUsuario" class="w-10 h-10 rounded-full bg-slate-300 flex items-center justify-center font-bold text-slate-700">--</div>
+                    <button id="btnSalir" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-lg font-semibold">Salir</button>
+                    <button class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition">📥 Exportar Reporte</button>
+                </div>
+            </header>
+
+            <div class="p-8 max-w-7xl mx-auto w-full space-y-6">
+                <!-- Tarjetas KPI Estilo Mockup -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Ingresos Totales (mes)</p>
+                        <h3 id="kpiIngresosTotales" class="text-3xl font-black text-slate-800">$--</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Suscripciones Activas</p>
+                        <h3 id="kpiMiembrosActivos" class="text-3xl font-black text-slate-800">--</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Máquinas Confirmadas</p>
+                        <h3 id="kpiMaquinasReporte" class="text-3xl font-black text-slate-800 mt-1">--/--</h3>
+                        <div class="w-full bg-slate-100 h-2 rounded-full mt-3 overflow-hidden">
+                            <div id="barraMaquinasReporte" class="bg-emerald-500 h-full w-[0%]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Análisis / Detalle -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4">Desglose de Ingresos por Categoría</h2>
+                    <div id="desgloseIngresos" class="space-y-3 text-sm">Cargando...</div>
+                </div>
+
+                <!-- Ingreso neto por cliente -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4">Ingreso Neto por Cliente (este mes)</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="text-xs uppercase text-slate-400 border-b border-slate-200">
+                                    <th class="py-2 pr-4">Cliente</th>
+                                    <th class="py-2 pr-4">Mensualidad Gym</th>
+                                    <th class="py-2 pr-4">Pago a Entrenador</th>
+                                    <th class="py-2">Total Neto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaIngresosPorCliente"><tr><td class="py-2 text-slate-400" colspan="4">Cargando...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+<script src="public/js/panel-common.js"></script>
+<script src="public/js/reportes.js?v=2"></script>
+<script src="public/js/branding.js?v=1"></script>
+</body>
+</html>

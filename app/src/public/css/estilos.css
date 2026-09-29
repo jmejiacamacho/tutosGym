@@ -1,0 +1,204 @@
+:root {
+    --color-primario: #1f6feb;
+    --color-fondo: #f4f6f8;
+    --color-tarjeta: #ffffff;
+    --color-texto: #1a1a1a;
+    --color-exito: #1f9d55;
+    --radio: 10px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--color-fondo);
+    color: var(--color-texto);
+}
+
+header {
+    background: var(--color-primario);
+    color: white;
+    padding: 24px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 0 6px;
+}
+
+main {
+    max-width: 700px;
+    margin: 24px auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tarjeta {
+    background: var(--color-tarjeta);
+    border-radius: var(--radio);
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+input[type="text"], input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    flex: 1;
+    min-width: 180px;
+}
+
+button {
+    background: var(--color-primario);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#btnConfirmar {
+    background: var(--color-exito);
+    margin-top: 10px;
+}
+
+.oculto {
+    display: none;
+}
+
+#resultadoSubida {
+    margin-top: 16px;
+    padding: 14px;
+    background: #eef6ff;
+    border-radius: 8px;
+}
+
+.item-maquina {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.item-maquina:last-child {
+    border-bottom: none;
+}
+
+.badge {
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: #ffe8a3;
+    color: #7a5c00;
+}
+
+.badge.confirmada {
+    background: #d3f5df;
+    color: #146c3a;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.tab-btn {
+    flex: 1;
+    background: #e8edf3;
+    color: var(--color-texto);
+    font-weight: 500;
+}
+
+.tab-btn.activo {
+    background: var(--color-primario);
+    color: white;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formulario input, .formulario select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+#mensajeEstado {
+    margin-top: 14px;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+#mensajeEstado.exito {
+    background: #d3f5df;
+    color: #146c3a;
+}
+
+#mensajeEstado.error {
+    background: #fbdede;
+    color: #a11414;
+}
+
+.badge.vence-pronto {
+    background: #ffdca3;
+    color: #8a4b00;
+}
+
+.badge.vencida {
+    background: #fbdede;
+    color: #a11414;
+}
+
+.resumen-ingresos {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.dato-ingreso {
+    flex: 1;
+    min-width: 160px;
+    background: #eef6ff;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dato-ingreso.destacado {
+    background: var(--color-primario);
+    color: white;
+}
+
+.dato-ingreso .etiqueta {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.dato-ingreso .valor {
+    font-size: 24px;
+    font-weight: 700;
+}

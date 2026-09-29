@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuración - Tutos Gym Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="public/js/tema.js?v=1"></script>
+    <link rel="stylesheet" href="public/css/tema.css?v=1">
+    <link rel="icon" href="public/img/logo-default.png">
+</head>
+<body class="bg-slate-100 font-sans antialiased" data-roles-permitidos="1">
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <div id="overlaySidebarMovil" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
+        <aside id="sidebarMovil" class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between p-6 fixed md:static inset-y-0 left-0 z-50 -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+            <div>
+                <div class="flex items-center gap-3 text-white font-bold text-lg mb-10">
+                    <img class="logo-gym w-12 h-12 rounded-full object-cover" src="public/img/logo-default.png" alt="Logo">
+                    <span class="nombre-gym leading-tight">Tutos Gym Club</span>
+                </div>
+                <nav class="space-y-2 text-sm">
+                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">🏠 Inicio</a>
+                    <a href="suscripciones.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">💳 Suscripciones</a>
+                    <a href="reportes.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">📊 Reportes</a>
+                    <a href="admin-maquinas.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">🏋️‍♂️ Admin. Máquinas</a>
+                    <a href="usuarios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-400">👥 Usuarios</a>
+                    <a href="configuracion.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600 text-white font-medium shadow-lg shadow-blue-600/30">⚙️ Configuración</a>
+                </nav>
+            </div>
+            <div class="text-xs text-slate-500">v2.4.0 - Gym Management</div>
+        </aside>
+
+        <!-- Contenido -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3"><button id="btnMenu" class="md:hidden text-2xl text-slate-600 leading-none">☰</button><h1 class="text-xl font-extrabold text-slate-800">Configuración del Sistema</h1></div>
+                <div class="flex items-center gap-4">
+                    <span id="nombreUsuario" class="text-sm font-medium text-slate-600">Cargando...</span>
+                    <div id="inicialesUsuario" class="w-10 h-10 rounded-full bg-slate-300 flex items-center justify-center font-bold text-slate-700">--</div>
+                    <button id="btnSalir" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-lg font-semibold">Salir</button>
+                </div>
+            </header>
+
+            <div class="p-8 max-w-5xl mx-auto w-full space-y-6">
+                <!-- Tarjeta: Datos del Gimnasio -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-800 mb-1">Información del Gimnasio</h2>
+                    <p class="text-xs text-slate-400 mb-6">Actualiza los datos principales que aparecerán en los reportes y recibos.</p>
+                    
+                    <form id="formDatosGimnasio" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Nombre del Establecimiento</label>
+                                <input type="text" id="cfgNombre" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Teléfono de Soporte</label>
+                                <input type="text" id="cfgTelefono" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Dirección Principal</label>
+                            <input type="text" id="cfgDireccion" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Horario Entre Semana (Lun–Vie)</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="time" id="cfgHorarioAperturaSemana" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <input type="time" id="cfgHorarioCierreSemana" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Horario Fin de Semana (Sáb–Dom)</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="time" id="cfgHorarioAperturaFinde" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <input type="time" id="cfgHorarioCierreFinde" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <div class="flex justify-end items-center gap-3 pt-2">
+                            <p id="mensajeConfiguracion" class="text-xs"></p>
+                            <button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-800 transition">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tarjeta: Preferencias del Sistema -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-800 mb-1">Preferencias y Notificaciones</h2>
+                    <p class="text-xs text-slate-400 mb-6">Gestiona las alertas automáticas de vencimiento de suscripciones.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Alertas de Vencimiento por Correo</h4>
+                                <p class="text-xs text-slate-400">Enviar recordatorio automático a los socios antes de expirar su plan.</p>
+                            </div>
+                            <input type="checkbox" id="cfgAlertasCorreo" class="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Modo de Mantenimiento Automático de Máquinas</h4>
+                                <p class="text-xs text-slate-400">Programar revisiones preventivas cada 30 días de uso continuo.</p>
+                            </div>
+                            <input type="checkbox" id="cfgMantenimiento" class="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Logo del gimnasio -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-800 mb-1">Logo del Gimnasio</h2>
+                    <p class="text-xs text-slate-400 mb-6">Aparece en el login, en los menús y en la pestaña del navegador. PNG, JPG, WEBP o GIF de hasta 2 MB (mejor cuadrado).</p>
+
+                    <div class="flex flex-wrap items-center gap-6">
+                        <img id="previewLogo" class="logo-gym w-24 h-24 rounded-full object-cover border border-slate-200" src="public/img/logo-default.png" alt="Logo actual">
+                        <form id="formLogo" class="flex flex-col gap-3">
+                            <input type="file" id="inputLogo" accept="image/png,image/jpeg,image/webp,image/gif" required class="text-sm">
+                            <div class="flex gap-3">
+                                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">Subir nuevo logo</button>
+                                <button type="button" id="btnRestaurarLogo" class="text-sm text-slate-400 hover:text-slate-700 underline">Restaurar logo original</button>
+                            </div>
+                            <p id="mensajeLogo" class="text-xs"></p>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Precios de Suscripción -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-800 mb-1">Precios de Suscripción</h2>
+                    <p class="text-xs text-slate-400 mb-6">El valor de la mensualidad (y demás planes) puede cambiar de un año a otro — actualízalo aquí cuando haga falta.</p>
+                    <div id="listaPreciosSuscripcion" class="space-y-3">Cargando...</div>
+                </div>
+
+                <!-- Tarjeta: Festividades y días con horario especial -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-800 mb-1">Festividades y Días Especiales</h2>
+                    <p class="text-xs text-slate-400 mb-6">Agrega fechas con horario distinto al normal, o marcadas como cerrado todo el día.</p>
+
+                    <form id="formFestividad" class="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4">
+                        <input type="date" id="festFecha" required class="px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                        <input type="text" id="festNombre" placeholder="Nombre (ej: Año Nuevo)" class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-2">
+                        <label class="flex items-center gap-2 text-sm text-slate-600 px-2">
+                            <input type="checkbox" id="festCerrado" class="rounded border-slate-300 text-blue-600"> Cerrado todo el día
+                        </label>
+                        <button type="submit" class="bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700">Agregar</button>
+                        <input type="time" id="festApertura" placeholder="Apertura especial" class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-2">
+                        <input type="time" id="festCierre" placeholder="Cierre especial" class="px-3 py-2 border border-slate-200 rounded-lg text-sm md:col-span-2">
+                    </form>
+                    <div id="listaFestividades" class="space-y-2 text-sm">Cargando...</div>
+                </div>
+
+                <!-- Tarjeta: Categorías de máquina -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-800 mb-1">Categorías de Máquina</h2>
+                    <p class="text-xs text-slate-400 mb-6">Estas categorías aparecen al confirmar una máquina nueva en Admin. Máquinas.</p>
+
+                    <form id="formCategoria" class="flex gap-3 mb-4">
+                        <input type="text" id="nuevaCategoria" placeholder="Nombre de la categoría" required class="px-3 py-2 border border-slate-200 rounded-lg text-sm flex-1">
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">Agregar</button>
+                    </form>
+                    <div id="listaCategorias" class="flex flex-wrap gap-2">Cargando...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+<script src="public/js/panel-common.js"></script>
+<script src="public/js/configuracion.js?v=4"></script>
+<script src="public/js/branding.js?v=1"></script>
+</body>
+</html>
