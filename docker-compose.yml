@@ -18,14 +18,14 @@ services:
       DB_USER: gimnasio_user
       DB_PASSWORD: gimnasio_pass
       # Brevo (correo, vía SMTP)
-      BREVO_API_KEY: tu_clave_api_de_brevo
-      BREVO_SENDER_EMAIL: tu_correo_verificado_en_brevo
+      BREVO_API_KEY: tu_api_key_aqui
+      BREVO_SENDER_EMAIL:  soportejesus1996@gmail.com
       # Bird (WhatsApp, requiere plantilla aprobada — ver config/notificaciones.php)
       BIRD_API_KEY: tu_api_key_de_bird
       BIRD_API_HOST: us1.platform.bird.com
       BIRD_WHATSAPP_TEMPLATE: nombre_de_tu_plantilla_aprobada
       # Google Cloud Vision (reconocimiento automático de máquinas por foto)
-      GOOGLE_VISION_API_KEY: tu_api_key_de_google_vision
+      GOOGLE_VISION_API_KEY: AIzaSyCu4EYRS4Ryl-joBGL-WV7-RE6Z831zl8g
     volumes:
       - ./app/src:/var/www/html
       - maquinas_fotos:/var/www/html/uploads/maquinas
