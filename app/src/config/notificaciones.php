@@ -1,66 +1,64 @@
 <?php
 // Funciones de envío de notificaciones.
-// Correo: Brevo vía SMTP (con PHPMailer)
-// WhatsApp: Twilio Sandbox (ideal para el prototipo/demo, sin verificación de Meta)
+// Correo: API de Brevo por HTTPS (evita que un host como Render bloquee el puerto SMTP)
+// WhatsApp: Bird (pendiente hasta tener el número empresarial)
 //
 // Credenciales esperadas como variables de entorno (ver docker-compose.yml):
-//   BREVO_SMTP_USER, BREVO_SMTP_PASS
-//   TWILIO_SID, TWILIO_TOKEN, TWILIO_WHATSAPP_FROM (ej: whatsapp:+14155238886, el número del sandbox)
+//   BREVO_API_KEY, BREVO_SENDER_EMAIL (debe estar verificado como remitente en Brevo)
+//   BIRD_API_KEY, BIRD_API_HOST, BIRD_WHATSAPP_TEMPLATE
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+// Envía un correo por la API de Brevo. $adjunto es opcional: ['ruta' => ..., 'nombre' => ...]
+function enviarCorreoBrevo(string $destinatario, string $asunto, string $mensaje, ?array $adjunto = null): bool {
+    $apiKey = getenv('BREVO_API_KEY');
+    $remitente = getenv('BREVO_SENDER_EMAIL');
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-function enviarCorreoConAdjunto(string $destinatario, string $asunto, string $mensaje, string $rutaAdjunto, string $nombreAdjunto): bool {
-    $mail = new PHPMailer(true);
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp-relay.brevo.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = getenv('BREVO_SMTP_USER');
-        $mail->Password = getenv('BREVO_SMTP_PASS');
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-        $mail->CharSet = 'UTF-8';
-
-        $mail->setFrom(getenv('BREVO_SMTP_USER'), 'Tutos Gym Club');
-        $mail->addAddress($destinatario);
-        $mail->addAttachment($rutaAdjunto, $nombreAdjunto);
-        $mail->Subject = $asunto;
-        $mail->Body = $mensaje;
-
-        $mail->send();
-        return true;
-    } catch (Exception $e) {
-        error_log("Error enviando correo con adjunto: {$mail->ErrorInfo}");
+    if (!$apiKey || !$remitente) {
+        error_log('Brevo no configurado: falta BREVO_API_KEY o BREVO_SENDER_EMAIL');
         return false;
     }
+
+    $payload = [
+        'sender' => ['name' => 'Tutos Gym Club', 'email' => $remitente],
+        'to' => [['email' => $destinatario]],
+        'subject' => $asunto,
+        'textContent' => $mensaje,
+    ];
+
+    if ($adjunto && is_file($adjunto['ruta'])) {
+        $payload['attachment'] = [[
+            'content' => base64_encode(file_get_contents($adjunto['ruta'])),
+            'name' => $adjunto['nombre'],
+        ]];
+    }
+
+    $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "api-key: {$apiKey}",
+        'Content-Type: application/json',
+        'Accept: application/json',
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+
+    $respuesta = curl_exec($ch);
+    $codigo = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($codigo >= 200 && $codigo < 300) {
+        return true;
+    }
+
+    error_log("Error enviando correo (Brevo): $respuesta");
+    return false;
+}
+
+function enviarCorreoConAdjunto(string $destinatario, string $asunto, string $mensaje, string $rutaAdjunto, string $nombreAdjunto): bool {
+    return enviarCorreoBrevo($destinatario, $asunto, $mensaje, ['ruta' => $rutaAdjunto, 'nombre' => $nombreAdjunto]);
 }
 
 function enviarCorreo(string $destinatario, string $asunto, string $mensaje): bool {
-    $mail = new PHPMailer(true);
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp-relay.brevo.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = getenv('BREVO_SMTP_USER');
-        $mail->Password = getenv('BREVO_SMTP_PASS');
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-        $mail->CharSet = 'UTF-8';
-
-        $mail->setFrom(getenv('BREVO_SMTP_USER'), 'Tutos Gym Club');
-        $mail->addAddress($destinatario);
-        $mail->Subject = $asunto;
-        $mail->Body = $mensaje;
-
-        $mail->send();
-        return true;
-    } catch (Exception $e) {
-        error_log("Error enviando correo: {$mail->ErrorInfo}");
-        return false;
-    }
+    return enviarCorreoBrevo($destinatario, $asunto, $mensaje);
 }
 
 function enviarWhatsApp(string $telefono, string $nombreCliente, string $fechaVencimiento): bool {

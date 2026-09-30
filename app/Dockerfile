@@ -10,7 +10,7 @@ RUN a2enmod rewrite
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 RUN apt-get update && apt-get install -y unzip zip
 COPY src/ /var/www/html/
-RUN cd /var/www/html && composer require phpmailer/phpmailer dompdf/dompdf --no-interaction
+RUN cd /var/www/html && composer require dompdf/dompdf --no-interaction
 
 # Dar permisos a www-data (Apache) sobre todo el proyecto — sin esto, Dompdf no puede
 # escribir su caché de fuentes y las subidas de fotos/PDFs fallan silenciosamente
